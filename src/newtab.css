@@ -1,0 +1,71 @@
+body {
+    font-family: sans-serif;
+    background-color: #f7e9d9;
+}
+
+#bookmarks {
+    margin-top: 20px;
+}
+#bookmarks div {
+    background-color: #ffffff;
+    border-radius: 10px;
+    float: left;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    border: 1px dotted #847461;
+    padding: 8px;
+    width: 200px;
+}
+#bookmarks div:hover {
+    border: 1px solid #2c4d67;
+}
+.group_title {
+    color: #333333;
+    font-family: Verdana, Calibri, sans-serif;
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-left: 5px;
+}
+.group_title:hover {
+    color: #1f68a0;
+    cursor: pointer;
+}
+#bookmarks ul {
+    margin-left: -25px;
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+#bookmarks ul li {
+    list-style: none;
+    margin-bottom: 3px;
+    width: 200px;
+}
+#bookmarks ul li a {
+    color: #000000;
+    font-family: Verdana, sans-serif;
+    font-size: 0.7em;
+    text-decoration: none;
+    padding: 5px;
+    height: 12px;
+    position: relative;
+    left: -7px;
+}
+#bookmarks ul li a:hover {
+    color: #1f68a0;
+    cursor: pointer;
+}
+#bookmarks ul li a:focus {
+    outline: 1px solid #1f68a0;
+}
+.group_back {
+    font-weight: bold;
+}
+.group_back:hover {
+    cursor: pointer;
+    color: #cc0000 !important;
+}
+.favicon {
+    position: relative;
+    top: 3px;
+    left: -5px;
+}

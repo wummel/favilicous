@@ -1,0 +1,18 @@
+{
+   "chrome_url_overrides": {
+      "newtab": "newtab.html"
+   },
+   "icons": {
+      "128": "images/icon128.png",
+      "16": "images/icon16.png",
+      "48": "images/icon48.png"
+   },
+   "name": "Favilicous",
+   "permissions": ["bookmarks", "chrome://favicon/", "tabs", "contextMenus"],
+   "default_locale": "en",
+   "background_page": "background.html",
+   "incognito": "split",
+   "minimum_chrome_version": "14.0.825.0",
+   "version": "0.1",
+   "update_url": "http://sumpfhupe.zxq.net/favilicous/updates.xml"
+}

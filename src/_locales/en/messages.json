@@ -1,0 +1,8 @@
+{
+  "ChromeNotReady": {
+    "message": "Chrome is not yet fully started, please wait..."
+  },
+  "RemoveBookmark": {
+    "message": "Remove bookmark"
+  }
+}

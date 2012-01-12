@@ -1,0 +1,8 @@
+{
+  "ChromeNotReady": {
+    "message": "Chrome ist noch nicht vollständig gestartet. Bitte warten..."
+  },
+  "RemoveBookmark": {
+    "message": "Lesezeichen entfernen"
+  }
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Favilicous | Tab</title>
+  <link rel="stylesheet" type="text/css" href="newtab.css"/>
+  <script type="text/javascript" src="jquery-1.7.1.js">
+  </script>
+  <script type="text/javascript" src="jquery.masonry.js">
+  </script>
+  <script type="text/javascript" src="bookmarks.js">
+  </script>
+  <script type="text/javascript" src="language.js">
+  </script>
+  <script type="text/javascript">
+/**
+ * Initialize bookmarks on page load.
+ */
+function init () {
+    initI18nHtml();
+    if (bgPage) {
+        $('#bgPageNotReady').hide();
+        initBookmarks();
+    }
+    else {
+        // since google chrome background.html takes a while to start, and
+        // getBackgroundPage() returns null before that, wait a half a second
+        // and try again.
+        var waitMillis = 500;
+        window.setTimeout(
+          'bgPage=chrome.extension.getBackgroundPage();initBookmarks()', waitMillis);
+    }
+}
+  </script>
+</head>
+
+<body onload="init();">
+  <div id="bookmarks">
+     <!-- filled by initBookmarks() -->
+  </div>
+  <div id="bgPageNotReady" class="__MSG_ChromeNotReady__">
+     Chrome is not yet fully started, please wait...
+  </div>
+</body>
+</html>
