@@ -3,7 +3,7 @@
  * @type {Object<string,(string|null)>}
  */
 var HTML_MESSAGES = {
-    ChromeNotReady: null,
+    ChromeNotReady: null
 };
 
 /**
