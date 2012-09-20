@@ -8,33 +8,13 @@
   </script>
   <script type="text/javascript" src="jquery.masonry.js">
   </script>
-  <script type="text/javascript" src="bookmarks.js">
-  </script>
   <script type="text/javascript" src="language.js">
   </script>
-  <script type="text/javascript">
-/**
- * Initialize bookmarks on page load.
- */
-function init () {
-    initI18nHtml();
-    if (bgPage) {
-        $('#bgPageNotReady').hide();
-        initBookmarks();
-    }
-    else {
-        // since google chrome background.html takes a while to start, and
-        // getBackgroundPage() returns null before that, wait a half a second
-        // and try again.
-        var waitMillis = 500;
-        window.setTimeout(
-          'bgPage=chrome.extension.getBackgroundPage();initBookmarks()', waitMillis);
-    }
-}
+  <script type="text/javascript" src="bookmarks.js">
   </script>
 </head>
 
-<body onload="init();">
+<body>
   <div id="bookmarks">
      <!-- filled by initBookmarks() -->
   </div>
