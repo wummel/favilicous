@@ -463,7 +463,7 @@ function removeScheme(url) {
 /**
  * Initialize bookmarks on page load.
  */
-window.onload = function () {
+document.addEventListener('DOMContentLoaded', function () {
     initI18nHtml();
     if (bgPage) {
         $('#bgPageNotReady').hide();
@@ -477,4 +477,4 @@ window.onload = function () {
         window.setTimeout(
           'bgPage=chrome.extension.getBackgroundPage();initBookmarks()', waitMillis);
     }
-}
+});

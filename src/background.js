@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-
-<html>
-  <head>
-    <title>Favilicous | Background</title>
-<script type="text/javascript">
 /**
  * Keep track which bookmark folder IDs are displayed. Maps bookmark IDs to
  * the number one. This way the "for .. in" loop can be used.
@@ -26,10 +20,3 @@ var bookmarkHtml = '';
  * @private
  */
 var bookmarksInitialized = false;
-
-</script>
-  </head>
-
-  <body>
-  </body>
-</html>

@@ -14,7 +14,7 @@
    "permissions": ["bookmarks", "chrome://favicon/", "tabs", "contextMenus"],
    "default_locale": "en",
    "background": {
-      "page": "background.html"
+      "scripts": ["background.js"]
    },
    "incognito": "split",
    "minimum_chrome_version": "18",
