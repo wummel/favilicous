@@ -5,7 +5,6 @@ build_dir := build
 dist_dir := dist
 chrome := /usr/bin/chromium
 jquery_version := 1.8.2
-homepage := ${HOME}/public_html/sumpfhupe.zxq.net/content/favilicous
 
 
 all:
@@ -36,7 +35,7 @@ dist-stamp:
 	touch $@
 
 release: dist-stamp
-	cp dist/*.xml dist/*.crx releases
+	cp dist/*.xml releases
 
 clean:
 	rm -rf $(build_dir) $(dist_dir)
