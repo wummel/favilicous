@@ -473,8 +473,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // since google chrome background.html takes a while to start, and
         // getBackgroundPage() returns null before that, wait a half a second
         // and try again.
-        var waitMillis = 500;
         window.setTimeout(
-          'bgPage=chrome.extension.getBackgroundPage();initBookmarks()', waitMillis);
+          'bgPage=chrome.extension.getBackgroundPage();initBookmarks()', 500);
     }
 });
