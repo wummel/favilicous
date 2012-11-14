@@ -35,8 +35,8 @@ dist-stamp:
 	@echo "[DIST] Result at $(dist_dir)/$(release_name).crx"
 	touch $@
 
-homepage: dist-stamp
-	cp dist/*.xml $(homepage)
+release: dist-stamp
+	cp dist/*.xml dist/*.crx releases
 
 clean:
 	rm -rf $(build_dir) $(dist_dir)
@@ -53,4 +53,4 @@ ide:
 jslint:
 	jsl --conf=jsl.conf
 
-.PHONY: all ide jslint clean dist build bump_version
+.PHONY: all ide jslint clean dist build bump_version release
