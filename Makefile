@@ -29,13 +29,14 @@ dist-stamp:
 	ln -s $(build_dir) $(base_name)
 	$(chrome) --pack-extension=$(base_name) --pack-extension-key=$(base_name).pem
 	rm $(base_name)
-	mv $(base_name).crx $(dist_dir)/${release_name}.crx
+	mv $(base_name).crx $(dist_dir)/$(release_name).crx
 	sed -e "s/VERSION/$(version)/g" updates.xml > $(dist_dir)/updates.xml
 	@echo "[DIST] Result at $(dist_dir)/$(release_name).crx"
 	touch $@
 
 release: dist-stamp
-	cp dist/*.xml releases
+	cp $(dist_dir)/updates.xml releases
+	bfk-github-upload wummel $(base_name) $(dist_dir)/$(release_name).crx
 
 clean:
 	rm -rf $(build_dir) $(dist_dir)
