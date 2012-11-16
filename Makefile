@@ -34,8 +34,14 @@ dist-stamp:
 	@echo "[DIST] Result at $(dist_dir)/$(release_name).crx"
 	touch $@
 
-release: dist-stamp
+releasecheck:	jslint
+
+release: releasecheck dist-stamp
 	cp $(dist_dir)/updates.xml releases
+	git add releases
+	git commit -m "Release $(version)"
+	git tag v$(version)
+	git push
 	bfk-github-upload wummel $(base_name) $(dist_dir)/$(release_name).crx
 
 clean:
@@ -53,4 +59,4 @@ ide:
 jslint:
 	jsl --conf=jsl.conf
 
-.PHONY: all ide jslint clean dist build bump_version release
+.PHONY: all ide jslint clean dist build bump_version release releasecheck
