@@ -12,6 +12,7 @@ var MAX_TITLE_LENGTH = 27;
  */
 var bgPage = chrome.extension.getBackgroundPage();
 
+
 /**
  * Get stored bookmark folders.
  * @return {Object<string, number>}
@@ -29,26 +30,6 @@ function getBookmarkFolders () {
  */
 function setBookmarkFolders (bookmarkFolders) {
     bgPage.bookmarkFolders = bookmarkFolders;
-}
-
-
-/**
- * Get stored bookmark HTML.
- * @return {string}
- * @private
- */
-function getBookmarkHtml () {
-    return bgPage.bookmarkHtml;
-}
-
-
-/**
- * Set stored bookmark Html.
- * @param {string} bookmarkHtml
- * @private
- */
-function setBookmarkHtml (bookmarkHtml) {
-    bgPage.bookmarkHtml = bookmarkHtml;
 }
 
 
@@ -95,7 +76,7 @@ function logError () {
 
 /**
  * Remove bookmark from favorites.
- * @param {OnClickData} Information about the item clicked and the context
+ * @param {info} Information about the item clicked and the context
  *     where the click happened.
  * @param {Tab} The details of the tab where the click took place.
  * @private
@@ -105,6 +86,7 @@ function removeBookmark (info, tab) {
         chrome.bookmarks.search(info.linkUrl, removeBookmarks);
     }
 }
+
 
 /**
  * Remove bookmarks
@@ -124,17 +106,7 @@ function removeBookmarks (nodes) {
  * @private
  */
 function displayBookmarks() {
-    var bookmarkHtml = getBookmarkHtml();
-    if (bookmarkHtml !== '') {
-        $('#bookmarks').html(bookmarkHtml);
-        $('#bookmarks').masonry({
-            singleMode: true
-        });
-        chrome.bookmarks.getTree(fillBookmarkFolders);
-    }
-    else {
-        chrome.bookmarks.getTree(handleRoot);
-    }
+    chrome.bookmarks.getTree(handleRoot);
 }
 
 
@@ -144,8 +116,6 @@ function displayBookmarks() {
  * @private
  */
 function clearCache () {
-    setBookmarkHtml("");
-    setBookmarkFolders({});
     displayBookmarks();
 }
 
@@ -158,33 +128,32 @@ function clearCache () {
 function handleRoot (tree) {
     $('#bookmarks').empty();
     tree.forEach(function(root) {
-        if (root.children)
+        if (root.children) {
             root.children.forEach(function(child) {
                 // The 'Bookmark Bar' and 'Other Bookmarks' are immediate
                 // children of the root bookmark.
                 // Note however that they do not always have id '1' and '2'!
                 handleRootfolder(child);
             });
+        }
     });
     // arrange in a masonry
     $('#bookmarks').masonry({
         singleMode: true
     });
-    // cache result HTML for faster rendering
-    setBookmarkHtml($('#bookmarks').html());
     fillBookmarkFolders(tree);
 }
 
 
 /**
  * Fill global bookmarkFolders variable.
- * @param {Array<BookmarkTreeNode>} Array with root bookmark folder
+ * @param tree {Array<BookmarkTreeNode>} Array with root bookmark folder
  * @private
  */
 function fillBookmarkFolders (tree) {
     var bookmarkFolders = getBookmarkFolders();
     tree.forEach(function(root) {
-        if (root.children)
+        if (root.children) {
             root.children.forEach(function(child) {
                 bookmarkFolders[child.id] = 1;
                 if (child.children) {
@@ -194,32 +163,33 @@ function fillBookmarkFolders (tree) {
                     });
                 }
             });
+        }
     });
 }
 
 
 /**
  * Display bookmarks from root folder.
- * @param {BookmarkTreeNode} the bookmark folder node
+ * @param  bookmark {BookmarkTreeNode} the bookmark folder node
  * @private
  */
 function handleRootfolder (bookmark) {
     if (!bookmark.children) return;
     // track if folder has links
     var hasLinkAlone = false;
-    // for storing html snippets
-    var html = '';
     bookmark.children.forEach(function(child) {
         if (child.url !== undefined) {
             // it is a link
             if (!hasLinkAlone) {
                 // make div for links
-                html = getFolderHtml(bookmark);
-                $('#bookmarks').append(html);
+                $('#bookmarks').append(getFolderHtml(bookmark));
+                $('#'+bookmark.id+' span').click(function() {
+                  openInTabs(bookmark.id);
+                  return false;
+                });
                 hasLinkAlone = true;
             }
-            html = getLinkHtml(child);
-            $('#'+bookmark.id+' ul').append(html);
+            $('#'+bookmark.id+' ul').append(getLinkHtml(child));
         } else {
             // it is a folder
             handleFolder(child);
@@ -236,22 +206,32 @@ function handleRootfolder (bookmark) {
 function handleFolder (bookmark) {
     if (!bookmark.children) return;
     // create new div element to store folder links
-    var html = getFolderHtml(bookmark);
-    $('#bookmarks').append(html);
+    $('#bookmarks').append(getFolderHtml(bookmark));
+    $('#'+bookmark.id+' span').click(function() {
+      openInTabs(bookmark.id);
+      return false;
+    });
     for (var i = 0; i < bookmark.children.length; i++) {
         var child = bookmark.children[i];
-        var title = getBookmarkTitle(child);
         if (child.url !== undefined) {
             // add link to list
-            html = getLinkHtml(child);
+            $('#'+bookmark.id+' ul').append(getLinkHtml(child));
         } else {
             // add folder link
-            html = "<li><a onclick=\"changeFolder('"+bookmark.id+
-                "', '" + child.id + "')\">" + getFavicon(child.url) +
-                '<b>' + title + '</b></a></li>';
+            var html = '<li><a id="' + child.id + '">' + getFavicon(child.url) +
+                '<b>' + htmlquote(getBookmarkTitle(child)) + '</b></a></li>';
+            $('#'+bookmark.id+' ul').append(html);
+            $('#'+child.id).click(getChangeFolderFunc(bookmark.id, child.id));
         }
-        $('#'+bookmark.id+' ul').append(html);
     }
+}
+
+
+function getChangeFolderFunc(divId, folderId) {
+    return function() {
+      changeFolder(divId, folderId);
+      return false;
+    };
 }
 
 
@@ -271,25 +251,24 @@ function replaceFolderChildren(divId, folder, children) {
     divUl.empty();
     divTitle.append(getBookmarkTitle(folder));
     // now fill it
-    var html = '';
     children.forEach(function (child) {
         if (child.url !== undefined) {
             // add link to list
-            html = getLinkHtml(child);
+            divUl.append(getLinkHtml(child));
         } else {
             // add link to go to subfolder
-            html = getSubfolderHtml(folder, child);
+            divUl.append(getSubfolderHtml(folder, child));
+            $('#'+child.id).click(getChangeFolderFunc(divId, child.id));
         }
-        divUl.append(html);
     });
     if (!(folder.id in getBookmarkFolders())) {
-        // if its not a direct child of a root folder add link to go back
-        html = "<li><a class=\"group_back\" onclick=\"changeFolder('" + 
-            folder.id + "','" + folder.parentId + "')\">&lt;&lt; Back</a></li>";
+        // if it is not a direct child of a root folder add link to go back
+        var html = '<li><a id="b' + folder.id +
+          '" class="group_back">&lt;&lt; Back</a></li>';
         divUl.append(html);
+        $('#b'+folder.id).click(getChangeFolderFunc(divId, folder.parentId));
     }
     div.fadeIn('fast');
-    div.attr('id', folder.id);
     $('#bookmarks').masonry({
         singleMode: true
     });
@@ -303,6 +282,7 @@ function replaceFolderChildren(divId, folder, children) {
  * @public
  */
 function changeFolder(divId, folderId) {
+    console.log('div='+divId+' folder='+folderId);
     $('#' + divId).fadeOut('fast');
     chrome.bookmarks.get(folderId, function (result) {
         var folder = result[0];
@@ -342,10 +322,10 @@ function getLinkHtml (bookmark) {
     var title = getBookmarkTitle(bookmark);
     var hoverTitle = '';
     if (bookmark.title.length > MAX_TITLE_LENGTH) {
-        hoverTitle = ' title="'+bookmark.title+'"';
+        hoverTitle = ' title="'+attrquote(bookmark.title)+'"';
     }
-    return '<li><a href="' + bookmark.url + '\"' + hoverTitle + '>' +
-           getFavicon(bookmark.url) + title + '</a></li>';
+    return '<li><a href="' + attrquote(bookmark.url) + '"' + hoverTitle + '>' +
+           getFavicon(bookmark.url) + htmlquote(title) + '</a></li>';
 }
 
 
@@ -357,17 +337,13 @@ function getLinkHtml (bookmark) {
  */
 function getFolderHtml (bookmark) {
     var title = getBookmarkTitle(bookmark);
-    var hoverTitle = '';
+    var hoverTitle = 'Open in tabs';
     if (bookmark.title.length > MAX_TITLE_LENGTH) {
-        hoverTitle = bookmark.title;
-    }
-    else {
-        hoverTitle = 'Open in tabs';
+        hoverTitle += ': ' + bookmark.title;
     }
     return '<div class="cont" id="'+bookmark.id+
-           "\"><span onclick=\"openInTabs('"+bookmark.id+
-           "')\" class=\"group_title\" title=\"" + hoverTitle + '">'+
-           title+'</span><ul></ul></div>';
+           '"><span class="group_title" title="' + attrquote(hoverTitle) + '">'+
+           htmlquote(title)+'</span><ul></ul></div>';
 }
 
 
@@ -380,13 +356,12 @@ function getFolderHtml (bookmark) {
  */
 function getSubfolderHtml (parent, folder) {
     var title = getBookmarkTitle(folder);
-    var hoverTitle = '';
+    var hoverTitle = 'Click to open';
     if (folder.title.length > MAX_TITLE_LENGTH) {
-        hoverTitle = ' title="'+folder.title+'"';
+        hoverTitle = ' title="'+attrquote(folder.title)+'"';
     }
-    return '<li><a' + hoverTitle + " onclick=\"changeFolder('" +
-           parent.id + "','" + folder.id + "')\">" +
-           getFavicon(folder.url) + '<b>' + title + '</b></a></li>';
+    return '<li><a id="' + folder.id + '"' + hoverTitle + ">" +
+           getFavicon(folder.url) + '<b>' + htmlquote(title) + '</b></a></li>';
 }
 
 
@@ -420,7 +395,7 @@ function openInTabs(id) {
  */
 function getFavicon(url) {
     var src=getFaviconSrc(url);
-    return '<img class="favicon" src="'+src+'" width="16" height="16"/>';
+    return '<img class="favicon" src="'+attrquote(src)+'" width="16" height="16"/>';
 }
 
 
@@ -444,6 +419,31 @@ function getFaviconSrc(url) {
     return 'images/folder.png';
 }
 
+/**
+ * Quote an HTML attribute value by HTML-encoding all double quotes.
+ * @param value {string} the attribute value to quote
+ * @private
+ * @return {string}
+ */
+function attrquote(value) {
+    return value.replace(/\"/g, "&quot;");
+}
+
+
+/**
+ * Quote an HTML text by HTML-encoding ampersands and
+ * tag characters.
+ * @param value {string} the text to quote
+ * @private
+ * @return {string}
+ */
+function htmlquote(value) {
+    return value
+      .replace(/&/g, '&amp;')
+      .replace(/>/g, '&gt;')
+      .replace(/</g, '&lt;');
+}
+
 
 /**
  * Remove scheme from URL
@@ -456,9 +456,10 @@ function removeScheme(url) {
     if (url.indexOf(':') !== -1)
         url = url.substring(0, url.indexOf(':'));
     // remove leading '//'
-    url = url.replace('/^\/\//', '');
+    url = url.replace(/^\/\//, '');
     return url;
 }
+
 
 /**
  * Initialize bookmarks on page load.
@@ -471,9 +472,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     else {
         // since google chrome background.html takes a while to start, and
-        // getBackgroundPage() returns null before that, wait a half a second
-        // and try again.
-        window.setTimeout(
-          'bgPage=chrome.extension.getBackgroundPage();initBookmarks()', 500);
+        // getBackgroundPage() returns null before that, try again after
+        // a short wait time.
+        window.setTimeout(function() {
+          bgPage=chrome.extension.getBackgroundPage();
+          initBookmarks();
+        }, 250);
     }
 });

@@ -7,13 +7,6 @@
 var bookmarkFolders = {};
 
 /**
- * Store calculated bookmark HTML code for faster redisplay.
- * @type {string}
- * @private
- */
-var bookmarkHtml = '';
-
-/**
  * Store flag if bookmark menu and listeners have been initialized.
  * This way they do not get initialized more than once.
  * @type {boolean}
