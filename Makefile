@@ -4,7 +4,7 @@ release_name := $(base_name)-$(version)
 build_dir := build
 dist_dir := dist
 chrome := /usr/bin/chromium
-jquery_version := 1.8.2
+jquery_version := 1.8.3
 
 
 all:
@@ -42,7 +42,7 @@ release: releasecheck dist-stamp
 	git commit -m "Release $(version)"
 	git tag v$(version)
 	git push
-	bfk-github-upload wummel $(base_name) $(dist_dir)/$(release_name).crx
+	github-upload wummel $(base_name) $(dist_dir)/$(release_name).crx
 
 clean:
 	rm -rf $(build_dir) $(dist_dir)
