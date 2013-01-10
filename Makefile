@@ -40,8 +40,8 @@ release: releasecheck dist-stamp
 	cp $(dist_dir)/updates.xml releases
 	git add releases
 	git commit -m "Release $(version)"
-	git tag v$(version)
-	git push
+	git tag upstream/$(version)
+	git push --tags origin upstream/$(version)
 	github-upload wummel $(base_name) $(dist_dir)/$(release_name).crx
 
 clean:
