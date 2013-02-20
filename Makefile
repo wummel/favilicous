@@ -4,7 +4,7 @@ release_name := $(base_name)-$(version)
 build_dir := build
 dist_dir := dist
 chrome := /usr/bin/chromium
-jquery_version := 1.8.3
+jquery_version := 1.9.1
 
 
 all:
@@ -36,7 +36,7 @@ dist-stamp:
 
 releasecheck:	jslint
 
-release: releasecheck dist-stamp
+release: releasecheck dist
 	cp $(dist_dir)/updates.xml releases
 	git add releases
 	git commit -m "Release $(version)"
