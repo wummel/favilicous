@@ -19,7 +19,7 @@ build-stamp:
 	@rm $(build_dir)/jquery-$(jquery_version).js
 	@mv $(build_dir)/jquery-$(jquery_version).min.js $(build_dir)/jquery-$(jquery_version).js
 	@echo "[BUILD] compressing files..."
-	@python $(HOME)/src/mediacompress.py --overwrite=png,js,css,json --exclude=jquery- $(build_dir)
+	@python $(HOME)/src/mediacompress.py --overwrite --exclude=jquery- $(build_dir)
 	touch $@
 
 dist:	build-stamp dist-stamp
