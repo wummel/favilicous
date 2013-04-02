@@ -10,7 +10,7 @@ var MAX_TITLE_LENGTH = 27;
  * The background page.
  * @private
  */
-var bgPage = chrome.extension.getBackgroundPage();
+var bgPage = null;
 
 
 /**
@@ -466,6 +466,7 @@ function removeScheme(url) {
  */
 document.addEventListener('DOMContentLoaded', function () {
     initI18nHtml();
+    bgPage = chrome.extension.getBackgroundPage();
     if (bgPage) {
         $('#bgPageNotReady').hide();
         initBookmarks();
@@ -475,8 +476,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // getBackgroundPage() returns null before that, try again after
         // a short wait time.
         window.setTimeout(function() {
-          bgPage=chrome.extension.getBackgroundPage();
-          initBookmarks();
+          window.location.reload(true);
         }, 250);
     }
 });
