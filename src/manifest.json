@@ -1,23 +1,32 @@
 {
-   "name": "Favilicous",
-   "version": "0.5",
-   "manifest_version": 2,
-   "chrome_url_overrides": {
-      "newtab": "newtab.html"
-   },
-   "web_accessible_resources": [ "newtab.html" ],
-   "icons": {
-      "128": "images/icon128.png",
-      "16": "images/icon16.png",
-      "48": "images/icon48.png"
-   },
-   "permissions": ["bookmarks", "chrome://favicon/", "tabs", "contextMenus"],
-   "default_locale": "en",
-   "background": {
-      "scripts": ["background.js"]
-   },
-   "incognito": "split",
-   "minimum_chrome_version": "18",
-   "update_url": "https://github.com/wummel/favilicous/raw/master/releases/updates.xml",
-   "offline_enabled": true
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "default_locale": "en",
+  "icons": {
+    "128": "images/icon128.png",
+    "16": "images/icon16.png",
+    "48": "images/icon48.png"
+  },
+  "incognito": "split",
+  "manifest_version": 2,
+  "minimum_chrome_version": "18",
+  "name": "Favilicous",
+  "offline_enabled": true,
+  "permissions": [
+    "bookmarks",
+    "chrome://favicon/",
+    "tabs",
+    "contextMenus"
+  ],
+  "update_url": "https://github.com/wummel/favilicous/raw/master/releases/updates.xml",
+  "version": "0.6",
+  "web_accessible_resources": [
+    "newtab.html"
+  ]
 }
