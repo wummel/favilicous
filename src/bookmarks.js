@@ -116,7 +116,7 @@ function displayBookmarks() {
  * @private
  */
 function clearCache () {
-    displayBookmarks();
+    window.location.reload(true);
 }
 
 
