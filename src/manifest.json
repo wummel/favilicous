@@ -25,8 +25,10 @@
     "contextMenus"
   ],
   "update_url": "https://github.com/wummel/favilicous/raw/master/releases/updates.xml",
-  "version": "0.6",
+  "version": "0.7",
   "web_accessible_resources": [
     "newtab.html"
-  ]
+  ],
+  "content_security_policy":
+    "object-src 'none'; script-src chrome://resources 'self'; img-src chrome://favicon/ 'self'"
 }

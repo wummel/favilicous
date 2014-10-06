@@ -82,6 +82,7 @@ function logError () {
  * @private
  */
 function removeBookmark (info, tab) {
+    console.info("Remove bookmark: " + info.linkUrl);
     if (info.linkUrl !== undefined && info.linkUrl !== '') {
         chrome.bookmarks.search(info.linkUrl, removeBookmarks);
     }
@@ -408,10 +409,6 @@ function getFavicon(url) {
  */
 function getFaviconSrc(url) {
     if (url !== undefined && url !== '') {
-        if (chrome.extension.inIncognitoContext) {
-            // incognito has no access to favicon cache for >= M13
-            return 'images/bookmark.png';
-        }
         // use favicon url chrome://favicon/$url
         return 'chrome://favicon/' + url;
     }
