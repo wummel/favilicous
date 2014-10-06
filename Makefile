@@ -4,7 +4,7 @@ release_name := $(base_name)-$(version)
 build_dir := build
 dist_dir := dist
 chrome := /usr/bin/chromium
-jquery_version := 1.9.1
+jquery_version := 2.1.1
 
 
 all:
