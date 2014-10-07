@@ -36,13 +36,12 @@ dist-stamp:
 
 releasecheck:	jslint
 
-release: releasecheck dist
+release: releasecheck
 	cp $(dist_dir)/updates.xml releases
 	git add releases
 	git commit -m "Release $(version)"
 	git tag upstream/$(version)
 	git push --tags origin upstream/$(version)
-	github-upload wummel $(base_name) $(dist_dir)/$(release_name).crx
 
 clean:
 	rm -rf $(build_dir) $(dist_dir)
