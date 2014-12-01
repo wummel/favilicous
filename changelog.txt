@@ -1,0 +1,3 @@
+x.x.x (released xx.xx.xxxx)
+
+- Updated jquery masonry to v3.2.1.
