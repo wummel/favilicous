@@ -43,9 +43,11 @@ function initBookmarks () {
     if (!bgPage.bookmarksInitialized) {
         bgPage.bookmarksInitialized = true;
         chrome.bookmarks.onChanged.addListener(clearCache);
-        chrome.bookmarks.onChildrenReordered.addListener(clearCache);
+        // unsupported in Firefox
+        //chrome.bookmarks.onChildrenReordered.addListener(clearCache);
         chrome.bookmarks.onCreated.addListener(clearCache);
-        chrome.bookmarks.onImportEnded.addListener(clearCache);
+        // unsupported in Firefox
+        //chrome.bookmarks.onImportEnded.addListener(clearCache);
         chrome.bookmarks.onMoved.addListener(clearCache);
         chrome.bookmarks.onRemoved.addListener(clearCache);
         // add menu entry to remove bookmark on right-click
@@ -410,7 +412,10 @@ function getFavicon(url) {
 function getFaviconSrc(url) {
     if (url !== undefined && url !== '') {
         // use favicon url chrome://favicon/$url
-        return 'chrome://favicon/' + url;
+        //return 'chrome://favicon/' + url;
+        // not supported in Firefox
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=1315616
+        return 'images/bookmark.png';
     }
     // per default return a folder icon
     return 'images/folder.png';
