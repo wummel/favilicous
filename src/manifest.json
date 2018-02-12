@@ -22,10 +22,16 @@
     "contextMenus"
   ],
   "homepage_url": "https://github.com/wummel/favilicous/",
-  "version": "0.7",
+  "version": "0.8",
   "web_accessible_resources": [
     "newtab.html"
   ],
   "content_security_policy":
-    "object-src 'none'; script-src 'self'; img-src 'self'"
+    "object-src 'none'; script-src 'self'; img-src 'self'",
+  "applications": {
+    "gecko": {
+      "id": "reflexionsniveau@web.de",
+      "strict_min_version": "57.0"
+    }
+  }
 }
