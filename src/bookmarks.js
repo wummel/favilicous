@@ -172,6 +172,19 @@ function fillBookmarkFolders (tree) {
 
 
 /**
+ * Check if given URL should be ignored.
+ * Ignored URLs are place: and data: URLs.
+ * @param url {String] the URL to check
+ * @return true if URL is to be ignored, else false
+ * @private
+ */
+function ignoreLink(url) {
+    return (url.lastIndexOf("place:", 0) === 0 ||
+            url.lastIndexOf("data:", 0) === 0);
+}
+
+
+/**
  * Display bookmarks from root folder.
  * @param  bookmark {BookmarkTreeNode} the bookmark folder node
  * @private
@@ -183,16 +196,18 @@ function handleRootfolder (bookmark) {
     bookmark.children.forEach(function(child) {
         if (child.url !== undefined) {
             // it is a link
-            if (!hasLinkAlone) {
-                // make div for links
-                $('#bookmarks').append(getFolderHtml(bookmark));
-                $('#'+bookmark.id+' span').click(function() {
-                  openInTabs(bookmark.id);
-                  return false;
-                });
-                hasLinkAlone = true;
+            if (!ignoreLink(child.url)) {
+                if (!hasLinkAlone) {
+                    // make div for links
+                    $('#bookmarks').append(getFolderHtml(bookmark));
+                    $('#'+bookmark.id+' span').click(function() {
+                      openInTabs(bookmark.id);
+                      return false;
+                    });
+                    hasLinkAlone = true;
+                }
+                $('#'+bookmark.id+' ul').append(getLinkHtml(child));
             }
-            $('#'+bookmark.id+' ul').append(getLinkHtml(child));
         } else {
             // it is a folder
             handleFolder(child);
@@ -217,8 +232,10 @@ function handleFolder (bookmark) {
     for (var i = 0; i < bookmark.children.length; i++) {
         var child = bookmark.children[i];
         if (child.url !== undefined) {
-            // add link to list
-            $('#'+bookmark.id+' ul').append(getLinkHtml(child));
+            if (!ignoreLink(child.url)) {
+                // add link to list
+                $('#'+bookmark.id+' ul').append(getLinkHtml(child));
+            }
         } else {
             // add folder link
             var html = '<li><a id="' + child.id + '">' + getFavicon(child.url) +
@@ -412,9 +429,10 @@ function getFavicon(url) {
 function getFaviconSrc(url) {
     if (url !== undefined && url !== '') {
         // use favicon url chrome://favicon/$url
-        //return 'chrome://favicon/' + url;
-        // not supported in Firefox
+        // XXX favicon cache is not supported in Firefox
         // https://bugzilla.mozilla.org/show_bug.cgi?id=1315616
+        //return 'chrome://favicon/' + url;
+        // use plain bookmark icon
         return 'images/bookmark.png';
     }
     // per default return a folder icon
