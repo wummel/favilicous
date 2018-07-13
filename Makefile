@@ -9,6 +9,7 @@ jquery_masonry_version := 3.2.1
 web_ext := web-ext
 # web-ext documentation
 # https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Getting_started_with_web-ext
+# npm install --global web-ext
 
 all:
 	@echo "Available targets: ide icons favicons jslint clean dist build"
