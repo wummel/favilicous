@@ -12,7 +12,7 @@ web_ext := web-ext
 # npm install --global web-ext
 
 all:
-	@echo "Available targets: ide icons favicons jslint clean dist build"
+	@echo "Available targets: ide icons favicons lint clean dist build"
 
 build:	build-stamp
 build-stamp:
@@ -35,7 +35,7 @@ dist-stamp:
 	@echo "[DIST] Result at $(dist_dir)/web_ext_release/
 	touch $@
 
-releasecheck:	jslint
+releasecheck:	lint
 
 release: releasecheck
 	git tag upstream/$(version)
@@ -56,7 +56,10 @@ ide:
 run:
 	cd src && $(web_ext) run
 
-jslint:
+lint:
 	cd src && $(web_ext) lint
 
-.PHONY: all ide jslint clean dist build bump_version release releasecheck
+jslint:
+	eslint src/background.js src/bookmarks.js src/language.js
+
+.PHONY: all ide lint clean dist build bump_version release releasecheck
