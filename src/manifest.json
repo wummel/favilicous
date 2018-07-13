@@ -18,8 +18,7 @@
   "name": "Favilicous",
   "permissions": [
     "bookmarks",
-    "tabs",
-    "contextMenus"
+    "tabs"
   ],
   "homepage_url": "https://github.com/wummel/favilicous/",
   "version": "0.8",

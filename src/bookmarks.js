@@ -34,9 +34,7 @@ function setBookmarkFolders (bookmarkFolders) {
 
 
 /**
- * Register bookmark change listeners, register context menu entries and
- * display bookmarks.
- * Needs the "contextMenus" permission.
+ * Register bookmark change listeners and display bookmarks.
  * @public
  */
 function initBookmarks () {
@@ -50,16 +48,6 @@ function initBookmarks () {
         //chrome.bookmarks.onImportEnded.addListener(clearCache);
         chrome.bookmarks.onMoved.addListener(clearCache);
         chrome.bookmarks.onRemoved.addListener(clearCache);
-        // add menu entry to remove bookmark on right-click
-        var info = {
-            title: chrome.i18n.getMessage('RemoveBookmark'),
-            contexts:['link'],
-            onclick: removeBookmark,
-            documentUrlPatterns: [chrome.extension.getURL('newtab.html')]
-        };
-        // Logs error for versions earlier than rev92609 (>=14.0.825.0)
-        // See http://code.google.com/p/chromium/issues/detail?id=51461
-        chrome.contextMenus.create(info, logError);
     }
     displayBookmarks();
 }
@@ -73,33 +61,6 @@ function logError () {
     if (chrome.extension.lastError) {
         console.error("Error: "+chrome.extension.lastError);
     }
-}
-
-
-/**
- * Remove bookmark from favorites.
- * @param {info} Information about the item clicked and the context
- *     where the click happened.
- * @param {Tab} The details of the tab where the click took place.
- * @private
- */
-function removeBookmark (info, tab) {
-    console.info("Remove bookmark: " + info.linkUrl);
-    if (info.linkUrl !== undefined && info.linkUrl !== '') {
-        chrome.bookmarks.search(info.linkUrl, removeBookmarks);
-    }
-}
-
-
-/**
- * Remove bookmarks
- * @param {array of BookmarkTreeNode } bookmark nodes
- * @private
- */
-function removeBookmarks (nodes) {
-    nodes.forEach(function (node) {
-        chrome.bookmarks.remove(node.id);
-    });
 }
 
 
