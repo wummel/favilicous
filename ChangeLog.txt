@@ -1,0 +1,3 @@
+0.1
+* Use unofficial githubusercontent favicon cache
+* Remove menu entry to delete bookmarks
