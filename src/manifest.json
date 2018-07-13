@@ -27,7 +27,7 @@
     "newtab.html"
   ],
   "content_security_policy":
-    "object-src 'none'; script-src 'self'; img-src 'self'",
+    "object-src 'none'; script-src 'self'; img-src 'self' https://favicons.githubusercontent.com",
   "applications": {
     "gecko": {
       "id": "reflexionsniveau@web.de",

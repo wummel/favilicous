@@ -433,11 +433,15 @@ function getFaviconSrc(url) {
         // https://bugzilla.mozilla.org/show_bug.cgi?id=1315616
         //return 'chrome://favicon/' + url;
         // use plain bookmark icon
-        return 'images/bookmark.png';
+        //return 'images/bookmark.png';
+        // use unofficial(?) favicon cache from githubusercontent
+        var urlObject = new URL(url);
+        return 'https://favicons.githubusercontent.com/' + urlObject.host;
     }
     // per default return a folder icon
     return 'images/folder.png';
 }
+
 
 /**
  * Quote an HTML attribute value by HTML-encoding all double quotes.
