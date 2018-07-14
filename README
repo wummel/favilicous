@@ -1,18 +1,7 @@
-A Google Chrome extension to display bookmarks in the newtab page.
+A Firefox extension to display bookmarks in the newtab page.
 
 Installation
 =============
 
-- Clone this git repository on your computer.
-- In Google Chrome or Chromium open the extensions tab and
-  activate the "Developer mode" checkbox.
-- Click on "Load unpacked extension" and select the
-  favilicious/src folder.
+Download it from https://addons.mozilla.org/
 
-Notes
-=======
-
-Google Chrome on Windows will display a warnings message if
-local unpacked extensions are installed.
-See https://code.google.com/p/chromium/issues/detail?id=337734
-for more info and ways to avoid this.
