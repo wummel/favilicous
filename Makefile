@@ -4,8 +4,6 @@ version := $(shell python -c "import json;print json.load(open('src/manifest.jso
 release_name := $(base_name)-$(version)
 build_dir := build
 dist_dir := dist
-jquery_version := 2.2.4
-jquery_masonry_version := 3.2.1
 web_ext := web-ext
 # web-ext documentation
 # https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Getting_started_with_web-ext
@@ -26,8 +24,8 @@ dist:	build-stamp dist-stamp
 dist-stamp:
 	@echo "[DIST] creating ZIP package..."
 #	cd $(build_dir) && $(web_ext) sign --api-key=$(AMO_JWT_ISSUER) --api-secret=$(AMO_JWT_SECRET)
-	cd $(build_dir) && $(web_ext) build
-	@echo "[DIST] Result at $(dist_dir)/web_ext_release/"
+	cd $(build_dir) && $(web_ext) --artifacts-dir $(dist_dir) build
+	@echo "[DIST] Result at $(build_dir)/$(dist_dir)/"
 	touch $@
 
 releasecheck:	lint
@@ -37,7 +35,7 @@ release: releasecheck
 	git push --tags origin upstream/$(version)
 
 clean:
-	rm -rf $(build_dir) $(dist_dir)
+	rm -rf $(build_dir)
 	rm -f $(base_name) *-stamp
 
 bump_version:
@@ -57,4 +55,4 @@ lint:
 jslint:
 	eslint src/background.js src/bookmarks.js src/language.js
 
-.PHONY: all ide lint clean dist build bump_version release releasecheck
+.PHONY: all ide lint jslint clean dist build bump_version release releasecheck

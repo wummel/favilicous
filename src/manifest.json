@@ -31,7 +31,7 @@
       "strict_min_version": "57.0",
       "id": "reflexionsniveau@web.de"
     }
-  }
+  },
   "content_security_policy":
     "object-src 'none'; script-src 'self'; img-src 'self' https://favicons.githubusercontent.com"
 }
