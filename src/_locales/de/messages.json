@@ -1,8 +1,5 @@
 {
-  "ChromeNotReady": {
-    "message": "Chrome ist noch nicht vollständig gestartet. Bitte warten..."
-  },
-  "RemoveBookmark": {
-    "message": "Lesezeichen entfernen"
+  "PageNotReady": {
+    "message": "Die Seite ist noch nicht vollständig gestartet. Bitte warten..."
   }
 }

@@ -3,7 +3,7 @@
  * and displayed only on mouseover.
  * @type {number}
  */
-var MAX_TITLE_LENGTH = 27;
+var MAX_TITLE_LENGTH = 22;
 
 
 /**
@@ -18,7 +18,7 @@ var bgPage = null;
  * @return {Object<string, number>}
  * @private
  */
-function getBookmarkFolders () {
+function getBookmarkFolders() {
     return bgPage.bookmarkFolders;
 }
 
@@ -28,7 +28,7 @@ function getBookmarkFolders () {
  * @param {Object<string, number>} bookmarkFolders
  * @private
  */
-function setBookmarkFolders (bookmarkFolders) {
+function setBookmarkFolders(bookmarkFolders) {
     bgPage.bookmarkFolders = bookmarkFolders;
 }
 
@@ -37,14 +37,14 @@ function setBookmarkFolders (bookmarkFolders) {
  * Register bookmark change listeners and display bookmarks.
  * @public
  */
-function initBookmarks () {
+function initBookmarks() {
     if (!bgPage.bookmarksInitialized) {
         bgPage.bookmarksInitialized = true;
         chrome.bookmarks.onChanged.addListener(clearCache);
-        // unsupported in Firefox
+        // XXX unsupported in Firefox
         //chrome.bookmarks.onChildrenReordered.addListener(clearCache);
         chrome.bookmarks.onCreated.addListener(clearCache);
-        // unsupported in Firefox
+        // XXX unsupported in Firefox
         //chrome.bookmarks.onImportEnded.addListener(clearCache);
         chrome.bookmarks.onMoved.addListener(clearCache);
         chrome.bookmarks.onRemoved.addListener(clearCache);
@@ -57,7 +57,7 @@ function initBookmarks () {
  * Log to console if chrome had an error.
  * @public
  */
-function logError () {
+function logError() {
     if (chrome.extension.lastError) {
         console.error("Error: "+chrome.extension.lastError);
     }
@@ -79,7 +79,7 @@ function displayBookmarks() {
  * Called when bookmark data changes.
  * @private
  */
-function clearCache () {
+function clearCache() {
     window.location.reload(true);
 }
 
@@ -89,7 +89,7 @@ function clearCache () {
  * @param {Array<BookmarkTreeNode>} Array with root bookmark folder
  * @private
  */
-function handleRoot (tree) {
+function handleRoot(tree) {
     $('#bookmarks').empty();
     tree.forEach(function(root) {
         if (root.children) {
@@ -103,7 +103,8 @@ function handleRoot (tree) {
     });
     // arrange in a masonry
     $('#bookmarks').masonry({
-        singleMode: true
+        columnWidth: 50,
+        itemSelector: '.grid-item'
     });
     fillBookmarkFolders(tree);
 }
@@ -114,7 +115,7 @@ function handleRoot (tree) {
  * @param tree {Array<BookmarkTreeNode>} Array with root bookmark folder
  * @private
  */
-function fillBookmarkFolders (tree) {
+function fillBookmarkFolders(tree) {
     var bookmarkFolders = getBookmarkFolders();
     tree.forEach(function(root) {
         if (root.children) {
@@ -283,7 +284,7 @@ function changeFolder(divId, folderId) {
 function getBookmarkTitle (bookmark) {
     if (bookmark.title.length > MAX_TITLE_LENGTH) {
         // limit title length
-        return bookmark.title.substring(0, 25) + '...';
+        return bookmark.title.substring(0, (MAX_TITLE_LENGTH-2)) + '..';
     }
     if (bookmark.title.length < 1) {
         // use URL name without scheme if there is no title
@@ -322,7 +323,7 @@ function getFolderHtml (bookmark) {
     if (bookmark.title.length > MAX_TITLE_LENGTH) {
         hoverTitle += ': ' + bookmark.title;
     }
-    return '<div class="cont" id="'+bookmark.id+
+    return '<div class="grid-item" id="'+bookmark.id+
            '"><span class="group_title" title="' + attrquote(hoverTitle) + '">'+
            htmlquote(title)+'</span><ul></ul></div>';
 }

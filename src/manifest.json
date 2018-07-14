@@ -13,6 +13,7 @@
     "16": "images/icon16.png",
     "48": "images/icon48.png"
   },
+  "description": "Replaces the start page with your bookmarks.",
   "manifest_version": 2,
   "minimum_chrome_version": "18",
   "name": "Favilicous",
@@ -21,16 +22,10 @@
     "tabs"
   ],
   "homepage_url": "https://github.com/wummel/favilicous/",
-  "version": "0.8",
+  "version": "0.9",
   "web_accessible_resources": [
     "newtab.html"
   ],
   "content_security_policy":
-    "object-src 'none'; script-src 'self'; img-src 'self' https://favicons.githubusercontent.com",
-  "applications": {
-    "gecko": {
-      "id": "reflexionsniveau@web.de",
-      "strict_min_version": "57.0"
-    }
-  }
+    "object-src 'none'; script-src 'self'; img-src 'self' https://favicons.githubusercontent.com"
 }
