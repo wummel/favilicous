@@ -1,6 +1,4 @@
-0.9 (released xx.xx.2018)
+0.8 (released xx.xx.2018)
   * Use unofficial githubusercontent favicon cache
   * Remove menu entry to delete bookmarks
-
-0.8 (unreleased)
-  * Starting changelog.
+  * Updated jquery and masonry

@@ -20,11 +20,6 @@ build-stamp:
 	@mkdir -p $(build_dir)
 	@cp -r src/* $(build_dir)
 	@chmod -R a+rX,u+w,go-w -- $(build_dir)
-	# replace JS files with minified versions
-	@rm $(build_dir)/jquery-$(jquery_version).js
-	@mv $(build_dir)/jquery-$(jquery_version).min.js $(build_dir)/jquery-$(jquery_version).js
-	@rm $(build_dir)/jquery.masonry-$(jquery_masonry_version).js
-	@mv $(build_dir)/jquery.masonry-$(jquery_masonry_version).min.js $(build_dir)/jquery.masonry-$(jquery_masonry_version).js
 	touch $@
 
 dist:	build-stamp dist-stamp
@@ -32,7 +27,7 @@ dist-stamp:
 	@echo "[DIST] creating ZIP package..."
 #	cd $(build_dir) && $(web_ext) sign --api-key=$(AMO_JWT_ISSUER) --api-secret=$(AMO_JWT_SECRET)
 	cd $(build_dir) && $(web_ext) build
-	@echo "[DIST] Result at $(dist_dir)/web_ext_release/
+	@echo "[DIST] Result at $(dist_dir)/web_ext_release/"
 	touch $@
 
 releasecheck:	lint
@@ -51,7 +46,7 @@ bump_version:
 	@python -c "import json; d=json.load(open('src/manifest.json')); print 'New version:', d['version']"
 
 ide:
-	eclipse -data ..
+	visual-studio-code .
 
 run:
 	cd src && $(web_ext) run
