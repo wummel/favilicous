@@ -1,3 +1,5 @@
+/*global $ */
+
 /**
  * Maximum bookmark title length. Titles longer than this are cut off
  * and displayed only on mouseover.
@@ -59,7 +61,7 @@ function initBookmarks() {
  */
 function logError() {
     if (chrome.extension.lastError) {
-        console.error("Error: "+chrome.extension.lastError);
+        console.error('Error: '+chrome.extension.lastError);
     }
 }
 
@@ -141,8 +143,8 @@ function fillBookmarkFolders(tree) {
  * @private
  */
 function ignoreLink(url) {
-    return (url.lastIndexOf("place:", 0) === 0 ||
-            url.lastIndexOf("data:", 0) === 0);
+    return (url.lastIndexOf('place:', 0) === 0 ||
+            url.lastIndexOf('data:', 0) === 0);
 }
 
 
@@ -163,8 +165,8 @@ function handleRootfolder (bookmark) {
                     // make div for links
                     $('#bookmarks').append(getFolderHtml(bookmark));
                     $('#'+bookmark.id+' span').click(function() {
-                      openInTabs(bookmark.id);
-                      return false;
+                        openInTabs(bookmark.id);
+                        return false;
                     });
                     hasLinkAlone = true;
                 }
@@ -188,8 +190,8 @@ function handleFolder (bookmark) {
     // create new div element to store folder links
     $('#bookmarks').append(getFolderHtml(bookmark));
     $('#'+bookmark.id+' span').click(function() {
-      openInTabs(bookmark.id);
-      return false;
+        openInTabs(bookmark.id);
+        return false;
     });
     for (var i = 0; i < bookmark.children.length; i++) {
         var child = bookmark.children[i];
@@ -211,8 +213,8 @@ function handleFolder (bookmark) {
 
 function getChangeFolderFunc(divId, folderId) {
     return function() {
-      changeFolder(divId, folderId);
-      return false;
+        changeFolder(divId, folderId);
+        return false;
     };
 }
 
@@ -342,7 +344,7 @@ function getSubfolderHtml (parent, folder) {
     if (folder.title.length > MAX_TITLE_LENGTH) {
         hoverTitle = ' title="'+attrquote(folder.title)+'"';
     }
-    return '<li><a id="' + folder.id + '"' + hoverTitle + ">" +
+    return '<li><a id="' + folder.id + '"' + hoverTitle + '>' +
            getFavicon(folder.url) + '<b>' + htmlquote(title) + '</b></a></li>';
 }
 
@@ -415,7 +417,7 @@ function getFaviconSrc(url) {
  * @return {string}
  */
 function attrquote(value) {
-    return value.replace(/\"/g, "&quot;");
+    return value.replace(/"/g, '&quot;');
 }
 
 
@@ -428,9 +430,9 @@ function attrquote(value) {
  */
 function htmlquote(value) {
     return value
-      .replace(/&/g, '&amp;')
-      .replace(/>/g, '&gt;')
-      .replace(/</g, '&lt;');
+        .replace(/&/g, '&amp;')
+        .replace(/>/g, '&gt;')
+        .replace(/</g, '&lt;');
 }
 
 
@@ -465,7 +467,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // getBackgroundPage() returns null before that, try again after
         // a short wait time.
         window.setTimeout(function() {
-          window.location.reload(true);
+            window.location.reload(true);
         }, 250);
     }
 });

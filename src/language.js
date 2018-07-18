@@ -1,3 +1,5 @@
+/*global $ */
+
 /**
  * Map HTML ids to messages.
  * @type {Object<string,(string|null)>}
