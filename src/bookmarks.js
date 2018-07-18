@@ -394,10 +394,13 @@ function getFaviconSrc(url) {
         // XXX favicon cache is not supported in Firefox
         // https://bugzilla.mozilla.org/show_bug.cgi?id=1315616
         //return 'chrome://favicon/' + url;
-        // use plain bookmark icon
-        //return 'images/bookmark.png';
-        // use unofficial(?) favicon cache from githubusercontent
         var urlObject = new URL(url);
+        if (!urlObject.protocol.startsWith('http') ||
+            urlObject.hostname === 'localhost') {
+            // use plain bookmark icon
+            return 'images/bookmark.png';
+        }
+        // use unofficial(?) favicon cache from githubusercontent
         return 'https://favicons.githubusercontent.com/' + urlObject.host;
     }
     // per default return a folder icon
