@@ -20,7 +20,7 @@ build-stamp:
 	@chmod -R a+rX,u+w,go-w -- $(build_dir)
 	touch $@
 
-dist:	build-stamp dist-stamp
+dist:	clean build-stamp dist-stamp
 dist-stamp:
 	@echo "[DIST] creating ZIP package..."
 #	cd $(build_dir) && $(web_ext) sign --api-key=$(AMO_JWT_ISSUER) --api-secret=$(AMO_JWT_SECRET)
@@ -30,7 +30,7 @@ dist-stamp:
 
 releasecheck:	lint
 
-release: releasecheck
+release: releasecheck dist
 	git tag upstream/$(version)
 	git push --tags origin upstream/$(version)
 
