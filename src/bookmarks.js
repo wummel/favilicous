@@ -164,10 +164,6 @@ function handleRootfolder (bookmark) {
                 if (!hasLinkAlone) {
                     // make div for links
                     $('#bookmarks').append(getFolderHtml(bookmark));
-                    $('#'+bookmark.id+' span').click(function() {
-                        openInTabs(bookmark.id);
-                        return false;
-                    });
                     hasLinkAlone = true;
                 }
                 $('#'+bookmark.id+' ul').append(getLinkHtml(child));
@@ -189,10 +185,6 @@ function handleFolder (bookmark) {
     if (!bookmark.children) return;
     // create new div element to store folder links
     $('#bookmarks').append(getFolderHtml(bookmark));
-    $('#'+bookmark.id+' span').click(function() {
-        openInTabs(bookmark.id);
-        return false;
-    });
     for (var i = 0; i < bookmark.children.length; i++) {
         var child = bookmark.children[i];
         if (child.url !== undefined) {
@@ -202,8 +194,8 @@ function handleFolder (bookmark) {
             }
         } else {
             // add folder link
-            var html = '<li><a id="' + child.id + '">' + getFavicon(child.url) +
-                '<b>' + htmlquote(getBookmarkTitle(child)) + '</b></a></li>';
+            var html = '<li><span id="' + child.id + '">' + getFavicon(child.url) +
+                '<b>' + htmlquote(getBookmarkTitle(child)) + '</b></span></li>';
             $('#'+bookmark.id+' ul').append(html);
             $('#'+child.id).click(getChangeFolderFunc(bookmark.id, child.id));
         }
@@ -321,10 +313,7 @@ function getLinkHtml (bookmark) {
  */
 function getFolderHtml (bookmark) {
     var title = getBookmarkTitle(bookmark);
-    var hoverTitle = 'Open in tabs';
-    if (bookmark.title.length > MAX_TITLE_LENGTH) {
-        hoverTitle += ': ' + bookmark.title;
-    }
+    var hoverTitle = bookmark.title;
     return '<div class="grid-item" id="'+bookmark.id+
            '"><span class="group_title" title="' + attrquote(hoverTitle) + '">'+
            htmlquote(title)+'</span><ul></ul></div>';
@@ -344,30 +333,8 @@ function getSubfolderHtml (parent, folder) {
     if (folder.title.length > MAX_TITLE_LENGTH) {
         hoverTitle = ' title="'+attrquote(folder.title)+'"';
     }
-    return '<li><a id="' + folder.id + '"' + hoverTitle + '>' +
-           getFavicon(folder.url) + '<b>' + htmlquote(title) + '</b></a></li>';
-}
-
-
-/**
- * Open all links of folder in new tabs and close the current one.
- * Needs the "tabs" permission.
- * @param {string} id The <div> folder element id
- * @public
- */
-function openInTabs(id) {
-    // handle each <a> entry
-    $('#' + id + ' ul li a').each( function(i, val) {
-        // open new tab with url
-        if (val !== '')
-            chrome.tabs.create({
-                url: val + ''
-            });
-    });
-    // close current tab
-    chrome.tabs.getCurrent( function(tab) {
-        chrome.tabs.remove(tab.id);
-    });
+    return '<li><span id="' + folder.id + '"' + hoverTitle + '>' +
+           getFavicon(folder.url) + '<b>' + htmlquote(title) + '</b></span></li>';
 }
 
 
@@ -398,7 +365,7 @@ function getFaviconSrc(url) {
         //return 'chrome://favicon/' + url;
         var urlObject = new URL(url);
         if (!urlObject.protocol.startsWith('http') ||
-            urlObject.hostname === 'localhost') {
+            urlObject.hostname === 'localhost' ||) {
             // use plain bookmark icon
             return 'images/bookmark.png';
         }

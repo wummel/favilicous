@@ -26,8 +26,7 @@
   "minimum_chrome_version": "18",
   "name": "Favilicous",
   "permissions": [
-    "bookmarks",
-    "tabs"
+    "bookmarks"
   ],
   "version": "0.10",
   "web_accessible_resources": [

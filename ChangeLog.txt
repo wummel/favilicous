@@ -1,3 +1,7 @@
+0.11 (released xx.xx.2018)
+  * Removed feature opening bookmarks in tabs when clicking
+    on folder name. Allows to drop the tabs permission.
+
 0.10 (released 18.07.2018)
   * Only get favicons for http or https bookmarks, and never for
     localhost bookmarks.
