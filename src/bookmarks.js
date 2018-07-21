@@ -365,7 +365,8 @@ function getFaviconSrc(url) {
         //return 'chrome://favicon/' + url;
         var urlObject = new URL(url);
         if (!urlObject.protocol.startsWith('http') ||
-            urlObject.hostname === 'localhost' ||) {
+            urlObject.hostname === 'localhost' ||
+            !window.navigator.onLine) {
             // use plain bookmark icon
             return 'images/bookmark.png';
         }
