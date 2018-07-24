@@ -1,4 +1,4 @@
-0.11 (released xx.xx.2018)
+0.11 (released 24.07.2018)
   * Removed feature opening bookmarks in tabs when clicking
     on folder name. Allows to drop the tabs permission.
   * Use local bookmark icon when network is offline.
