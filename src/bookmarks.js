@@ -287,8 +287,8 @@ function getBookmarkTitleWithLimit(bookmark) {
     var s = bookmark.title;
     var limited = false;
     if (s.length < 1) {
-         // use URL name without scheme if there is no title
-         s = removeScheme(bookmark.url);
+        // use URL name without scheme if there is no title
+        s = removeScheme(bookmark.url);
     }
     if (s.length > MAX_TITLE_LENGTH) {
         // limit title length
@@ -336,7 +336,7 @@ function getLinkHtml(bookmark) {
  */
 function getFolderHtml (bookmark) {
     var titleLimit = getBookmarkTitleWithLimit(bookmark);
-    var hoverTitle = ''
+    var hoverTitle = '';
     if (titleLimit[1]) {
         hoverTitle = ' title="' + attrquote(bookmark.title) + '"';
     }
