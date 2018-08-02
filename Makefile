@@ -38,9 +38,16 @@ clean:
 	rm -rf $(build_dir)
 	rm -f $(base_name) *-stamp
 
-bump_version:
+# bump the major part of version number
+bumpversion-major:
 	@python -c "import json; d=json.load(open('src/manifest.json')); print 'Old version:', d['version']"
-	@python -c "import json; d=json.load(open('src/manifest.json')); v = d['version'].split('.'); v[-1] = str(int(v[-1])+1); d['version'] = u'.'.join(v); fh = open('src/manifest.json', 'w'); json.dump(d, fh, indent=2, sort_keys=True, separators=(',', ': ')); fh.flush(); fh.close()"
+	@python -c "import json; d=json.load(open('src/manifest.json')); v = d['version'].split('.'); v[0] = str(int(v[0])+1); v[1] = '0'; d['version'] = u'.'.join(v); fh = open('src/manifest.json', 'w'); json.dump(d, fh, indent=2, sort_keys=True, separators=(',', ': ')); fh.flush(); fh.close()"
+	@python -c "import json; d=json.load(open('src/manifest.json')); print 'New version:', d['version']"
+
+# bump the minor part of version number
+bumpversion-minor:
+	@python -c "import json; d=json.load(open('src/manifest.json')); print 'Old version:', d['version']"
+	@python -c "import json; d=json.load(open('src/manifest.json')); v = d['version'].split('.'); v[1] = str(int(v[1])+1); d['version'] = u'.'.join(v); fh = open('src/manifest.json', 'w'); json.dump(d, fh, indent=2, sort_keys=True, separators=(',', ': ')); fh.flush(); fh.close()"
 	@python -c "import json; d=json.load(open('src/manifest.json')); print 'New version:', d['version']"
 
 ide:
@@ -55,4 +62,4 @@ lint:
 jslint:
 	eslint src/background.js src/bookmarks.js src/language.js
 
-.PHONY: all ide lint jslint clean dist build bump_version release releasecheck
+.PHONY: all ide lint jslint clean dist build bumpversion-minor bumpversion-major release releasecheck
