@@ -1,4 +1,4 @@
-0.13 (released xx.xx.2018)
+0.13 (released 02.08.2018)
   * No cursor on hover over top folder name.
   * Cursor on hover over subfolder names.
 
