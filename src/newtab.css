@@ -27,7 +27,6 @@ body {
 }
 .group_title:hover {
     color: #1f68a0;
-    cursor: pointer;
 }
 #bookmarks ul {
     margin-left: -25px;

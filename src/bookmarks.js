@@ -194,15 +194,7 @@ function handleFolder (bookmark) {
             }
         } else {
             // add folder link
-            var titleLimit = getBookmarkTitleWithLimit(child);
-            var hoverTitle = '';
-            if (titleLimit[1]) {
-                hoverTitle = ' title="' + attrquote(child.title) + '"';
-            }
-            var html = '<li><span id="' + child.id + '"' + hoverTitle + '>' +
-                getFavicon(child.url) + '<b>' + htmlquote(titleLimit[0]) +
-                '</b></span></li>';
-            $('#'+bookmark.id+' ul').append(html);
+            $('#'+bookmark.id+' ul').append(getSubfolderHtml(child));
             $('#'+child.id).click(getChangeFolderFunc(bookmark.id, child.id));
         }
     }
@@ -240,7 +232,7 @@ function replaceFolderChildren(divId, folder, children) {
             divUl.append(getLinkHtml(child));
         } else {
             // add link to go to subfolder
-            divUl.append(getSubfolderHtml(folder, child));
+            divUl.append(getSubfolderHtml(child));
             $('#'+child.id).click(getChangeFolderFunc(divId, child.id));
         }
     });
@@ -348,20 +340,19 @@ function getFolderHtml (bookmark) {
 
 /**
  * Get HTML for bookmark subfolder.
- * @param {BookmarkTreeNode} parent The bookmark parent folder node
  * @param {BookmarkTreeNode} folder The bookmark folder node
  * @private
  * @return {string}
  */
-function getSubfolderHtml (parent, folder) {
+function getSubfolderHtml(folder) {
     var titleLimit = getBookmarkTitleWithLimit(folder);
     var hoverTitle = 'Click to open';
     if (titleLimit[1]) {
         hoverTitle = ' title="'+attrquote(folder.title)+'"';
     }
-    return '<li><span id="' + folder.id + '"' + hoverTitle + '>' +
+    return '<li><a id="' + folder.id + '"' + hoverTitle + '>' +
            getFavicon(folder.url) + '<b>' + htmlquote(titleLimit[0]) +
-           '</b></span></li>';
+           '</b></a></li>';
 }
 
 

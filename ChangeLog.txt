@@ -1,3 +1,7 @@
+0.13 (released xx.xx.2018)
+  * No cursor on hover over top folder name.
+  * Cursor on hover over subfolder names.
+
 0.12 (released 01.08.2018)
   * Only use the title hover attribute when folder or bookmark titles
     have been length limited.
