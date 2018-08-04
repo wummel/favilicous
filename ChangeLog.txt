@@ -1,3 +1,6 @@
+0.14 (released 04.08.2018)
+  * Set fixed column width so the folders are aligned vertically.
+
 0.13 (released 02.08.2018)
   * No cursor on hover over top folder name.
   * Cursor on hover over subfolder names.
