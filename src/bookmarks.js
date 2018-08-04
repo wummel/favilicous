@@ -106,7 +106,8 @@ function handleRoot(tree) {
     // arrange in a masonry
     $('#bookmarks').masonry({
         columnWidth: 50,
-        itemSelector: '.grid-item'
+        itemSelector: '.grid-item',
+        gutter: 1
     });
     fillBookmarkFolders(tree);
 }
