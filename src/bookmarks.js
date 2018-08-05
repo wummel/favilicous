@@ -270,37 +270,18 @@ function changeFolder(divId, folderId) {
 
 
 /**
- * Get display title of bookmark node and a flag if it the title
- * has length limit applied.
- * @param {BookmarkTreeNode} bookmark The bookmark node
- * @private
- * @return {array} of {string, boolean}
- */
-function getBookmarkTitleWithLimit(bookmark) {
-    var s = bookmark.title;
-    var limited = false;
-    if (s.length < 1) {
-        // use URL name without scheme if there is no title
-        s = removeScheme(bookmark.url);
-    }
-    if (s.length > MAX_TITLE_LENGTH) {
-        // limit title length
-        limited = true;
-        s = s.substring(0, (MAX_TITLE_LENGTH-2)) + '..';
-    }
-    return [s, limited];
-}
-
-
-/**
  * Get display title of bookmark node.
  * @param {BookmarkTreeNode} bookmark The bookmark node
  * @private
  * @return {string}
  */
 function getBookmarkTitle(bookmark) {
-    var result = getBookmarkTitleWithLimit(bookmark);
-    return result[0];
+    var s = bookmark.title;
+    if (s.length < 1) {
+        // use URL name without scheme if there is no title
+        s = removeScheme(bookmark.url);
+    }
+    return s;
 }
 
 
@@ -311,13 +292,10 @@ function getBookmarkTitle(bookmark) {
  * @return {string}
  */
 function getLinkHtml(bookmark) {
-    var titleLimit = getBookmarkTitleWithLimit(bookmark);
-    var hoverTitle = '';
-    if (titleLimit[1]) {
-        hoverTitle = ' title="' + attrquote(bookmark.title) + '"';
-    }
-    return '<li><a href="' + attrquote(bookmark.url) + '"' + hoverTitle + '>' +
-        getFavicon(bookmark.url) + htmlquote(titleLimit[0]) + '</a></li>';
+    var hoverTitle = ' title="' + attrquote(bookmark.title) + '"';
+    return '<li><a href="' + attrquote(bookmark.url) + '"' + hoverTitle +
+        '>' + getFavicon(bookmark.url) +
+        htmlquote(getBookmarkTitle(bookmark)) + '</a></div></li>';
 }
 
 
@@ -328,14 +306,11 @@ function getLinkHtml(bookmark) {
  * @return {string}
  */
 function getFolderHtml (bookmark) {
-    var titleLimit = getBookmarkTitleWithLimit(bookmark);
-    var hoverTitle = '';
-    if (titleLimit[1]) {
-        hoverTitle = ' title="' + attrquote(bookmark.title) + '"';
-    }
+    var title = getBookmarkTitle(bookmark);
+    var hoverTitle = ' title="' + attrquote(bookmark.title) + '"';
     return '<div class="grid-item" id="'+bookmark.id+
-           '"><span class="group_title"' + hoverTitle + '>' +
-           htmlquote(titleLimit[0]) + '</span><ul></ul></div>';
+           '"><a class="group_title"' + hoverTitle + '>' +
+           htmlquote(title) + '</a><ul></ul></div>';
 }
 
 
@@ -346,13 +321,10 @@ function getFolderHtml (bookmark) {
  * @return {string}
  */
 function getSubfolderHtml(folder) {
-    var titleLimit = getBookmarkTitleWithLimit(folder);
-    var hoverTitle = 'Click to open';
-    if (titleLimit[1]) {
-        hoverTitle = ' title="'+attrquote(folder.title)+'"';
-    }
+    var title = getBookmarkTitle(folder);
+    var hoverTitle = ' title="'+attrquote(folder.title)+'"';
     return '<li><a id="' + folder.id + '"' + hoverTitle + '>' +
-           getFavicon(folder.url) + '<b>' + htmlquote(titleLimit[0]) +
+           getFavicon(folder.url) + '<b>' + htmlquote(title) +
            '</b></a></li>';
 }
 

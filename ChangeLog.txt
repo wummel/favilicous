@@ -1,3 +1,6 @@
+0.15 (released 05.08.2018)
+  * Use text-overflow:ellipsis for bookmark and folder titles.
+
 0.14 (released 04.08.2018)
   * Set fixed column width so the folders are aligned vertically.
 
