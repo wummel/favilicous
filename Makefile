@@ -50,8 +50,9 @@ bumpversion-minor:
 	@python -c "import json; d=json.load(open('src/manifest.json')); v = d['version'].split('.'); v[1] = str(int(v[1])+1); d['version'] = u'.'.join(v); fh = open('src/manifest.json', 'w'); json.dump(d, fh, indent=2, sort_keys=True, separators=(',', ': ')); fh.flush(); fh.close()"
 	@python -c "import json; d=json.load(open('src/manifest.json')); print 'New version:', d['version']"
 
+# use visual-studio-code
 ide:
-	visual-studio-code .
+	code .
 
 run:
 	cd src && $(web_ext) run

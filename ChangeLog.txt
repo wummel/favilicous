@@ -1,3 +1,6 @@
+0.16 (released 01.11.2018)
+  * Do not try to get favicons for IP address hostnames.
+
 0.15 (released 05.08.2018)
   * Use text-overflow:ellipsis for bookmark and folder titles.
 
