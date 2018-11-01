@@ -1,14 +1,6 @@
 /*global $ */
 
 /**
- * Maximum bookmark title length. Titles longer than this are cut off
- * and displayed only on mouseover.
- * @type {number}
- */
-var MAX_TITLE_LENGTH = 22;
-
-
-/**
  * The background page.
  * @private
  */
