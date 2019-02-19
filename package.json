@@ -1,0 +1,11 @@
+{
+    "name": "favilicous",
+    "version": "0.0.0",
+    "description": "only deps",
+    "license": "SEE LICENSE IN LICENSE.txt",
+    "private": true,
+    "devDependencies": {
+        "web-ext": "2.9.3",
+        "eslint": "5.14.0"
+    }
+}

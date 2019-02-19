@@ -4,10 +4,10 @@ version := $(shell python -c "import json;print json.load(open('src/manifest.jso
 release_name := $(base_name)-$(version)
 build_dir := build
 dist_dir := dist
-web_ext := web-ext
 # web-ext documentation
 # https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Getting_started_with_web-ext
-# npm install --global web-ext
+web_ext := $(CURDIR)/node_modules/.bin/web-ext
+eslint := $(CURDIR)/node_modules/.bin/eslint
 
 all:
 	@echo "Available targets: ide icons favicons lint clean dist build"
@@ -54,6 +54,14 @@ bumpversion-minor:
 ide:
 	code .
 
+# regenerate package-lock.json
+package-lock.json: package.json
+	npm install --package-lock-only .
+
+# install dependencies locally into ./node-modules
+install-npm: package-lock.json
+	npm install .
+
 run:
 	cd src && $(web_ext) run
 
@@ -61,6 +69,6 @@ lint:
 	cd src && $(web_ext) lint
 
 jslint:
-	eslint src/background.js src/bookmarks.js src/language.js
+	$(eslint) src/background.js src/bookmarks.js src/language.js
 
 .PHONY: all ide lint jslint clean dist build bumpversion-minor bumpversion-major release releasecheck
