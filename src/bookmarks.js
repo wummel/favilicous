@@ -251,7 +251,7 @@ function replaceFolderChildren(divId, folder, children) {
  */
 function changeFolder(divId, folderId) {
     console.log('div='+divId+' folder='+folderId);
-    $('#' + divId).fadeOut('fast');
+    $('#' + divId).hide();
     chrome.bookmarks.get(folderId, function (result) {
         var folder = result[0];
         chrome.bookmarks.getChildren(folderId, function (children) {
