@@ -28,7 +28,7 @@ dist-stamp:
 	@echo "[DIST] Result at $(build_dir)/$(dist_dir)/"
 	touch $@
 
-releasecheck:	lint
+releasecheck:	lint npmlint
 
 release: releasecheck dist
 	git tag upstream/$(version)
@@ -50,6 +50,9 @@ bumpversion-minor:
 	@python -c "import json; d=json.load(open('src/manifest.json')); v = d['version'].split('.'); v[1] = str(int(v[1])+1); d['version'] = u'.'.join(v); fh = open('src/manifest.json', 'w'); json.dump(d, fh, indent=2, sort_keys=True, separators=(',', ': ')); fh.flush(); fh.close()"
 	@python -c "import json; d=json.load(open('src/manifest.json')); print 'New version:', d['version']"
 
+checkoutdated:
+	npm outdated
+
 # use visual-studio-code
 ide:
 	code .
@@ -68,7 +71,12 @@ run:
 lint:
 	cd src && $(web_ext) lint
 
+# fix security vulnerabilities in npm-installed packages
+npmlint:
+	npm audit fix
+
+
 jslint:
 	$(eslint) src/background.js src/bookmarks.js src/language.js
 
-.PHONY: all ide lint jslint clean dist build bumpversion-minor bumpversion-major release releasecheck
+.PHONY: all ide lint jslint npmlint clean dist build bumpversion-minor bumpversion-major release releasecheck
