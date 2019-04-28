@@ -48,13 +48,12 @@ function initBookmarks() {
 
 
 /**
- * Log to console if chrome had an error.
- * @public
+ * Log errors to console.
+ * @param {string} error message
+ * @private
  */
-function logError() {
-    if (chrome.extension.lastError) {
-        console.error('Error: '+chrome.extension.lastError);
-    }
+function logError(msg) {
+    console.error('Favilicous error: ' + msg);
 }
 
 
@@ -64,7 +63,7 @@ function logError() {
  * @private
  */
 function displayBookmarks() {
-    chrome.bookmarks.getTree(handleRoot);
+    chrome.bookmarks.getTree().then(handleRoot, logError);
 }
 
 
@@ -252,12 +251,16 @@ function replaceFolderChildren(divId, folder, children) {
 function changeFolder(divId, folderId) {
     console.log('div='+divId+' folder='+folderId);
     $('#' + divId).hide();
-    chrome.bookmarks.get(folderId, function (result) {
-        var folder = result[0];
-        chrome.bookmarks.getChildren(folderId, function (children) {
-            replaceFolderChildren(divId, folder, children);
-        });
-    });
+    chrome.bookmarks.get(folderId).then(
+        function (result) {
+            var folder = result[0];
+            chrome.bookmarks.getChildren(folderId).then(
+                function (children) {
+                    replaceFolderChildren(divId, folder, children);
+                },
+                logError);
+        },
+        logError);
 }
 
 
