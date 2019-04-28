@@ -5,7 +5,7 @@
     "license": "SEE LICENSE IN LICENSE.txt",
     "private": true,
     "devDependencies": {
-        "web-ext": "2.9.3",
-        "eslint": "5.14.0"
+        "web-ext": "3.0.0",
+        "eslint": "5.16.0"
     }
 }
