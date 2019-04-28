@@ -34,14 +34,14 @@ function setBookmarkFolders(bookmarkFolders) {
 function initBookmarks() {
     if (!bgPage.bookmarksInitialized) {
         bgPage.bookmarksInitialized = true;
-        chrome.bookmarks.onChanged.addListener(clearCache);
+        browser.bookmarks.onChanged.addListener(clearCache);
         // XXX unsupported in Firefox
-        //chrome.bookmarks.onChildrenReordered.addListener(clearCache);
-        chrome.bookmarks.onCreated.addListener(clearCache);
+        //browser.bookmarks.onChildrenReordered.addListener(clearCache);
+        browser.bookmarks.onCreated.addListener(clearCache);
         // XXX unsupported in Firefox
-        //chrome.bookmarks.onImportEnded.addListener(clearCache);
-        chrome.bookmarks.onMoved.addListener(clearCache);
-        chrome.bookmarks.onRemoved.addListener(clearCache);
+        //browser.bookmarks.onImportEnded.addListener(clearCache);
+        browser.bookmarks.onMoved.addListener(clearCache);
+        browser.bookmarks.onRemoved.addListener(clearCache);
     }
     displayBookmarks();
 }
@@ -63,7 +63,7 @@ function logError(msg) {
  * @private
  */
 function displayBookmarks() {
-    chrome.bookmarks.getTree().then(handleRoot, logError);
+    browser.bookmarks.getTree().then(handleRoot, logError);
 }
 
 
@@ -251,10 +251,10 @@ function replaceFolderChildren(divId, folder, children) {
 function changeFolder(divId, folderId) {
     console.log('div='+divId+' folder='+folderId);
     $('#' + divId).hide();
-    chrome.bookmarks.get(folderId).then(
+    browser.bookmarks.get(folderId).then(
         function (result) {
             var folder = result[0];
-            chrome.bookmarks.getChildren(folderId).then(
+            browser.bookmarks.getChildren(folderId).then(
                 function (children) {
                     replaceFolderChildren(divId, folder, children);
                 },
@@ -413,13 +413,13 @@ function removeScheme(url) {
  */
 document.addEventListener('DOMContentLoaded', function () {
     initI18nHtml();
-    bgPage = chrome.extension.getBackgroundPage();
+    bgPage = browser.extension.getBackgroundPage();
     if (bgPage) {
         $('#bgPageNotReady').hide();
         initBookmarks();
     }
     else {
-        // since google chrome background.html takes a while to start, and
+        // since the background.html takes a while to start, and
         // getBackgroundPage() returns null before that, try again after
         // a short wait time.
         window.setTimeout(function() {
