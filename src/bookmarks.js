@@ -87,9 +87,8 @@ function handleRoot(tree) {
     tree.forEach(function(root) {
         if (root.children) {
             root.children.forEach(function(child) {
-                // The 'Bookmark Bar' and 'Other Bookmarks' are immediate
+                // Several folders, eg. the 'Bookmark Bar' and 'Other Bookmarks' are immediate
                 // children of the root bookmark.
-                // Note however that they do not always have id '1' and '2'!
                 handleRootfolder(child);
             });
         }
@@ -150,7 +149,7 @@ function handleRootfolder (bookmark) {
     // track if folder has links
     var hasLinkAlone = false;
     bookmark.children.forEach(function(child) {
-        if (child.url !== undefined) {
+        if (child.type == 'bookmark') {
             // it is a link
             if (!ignoreLink(child.url)) {
                 if (!hasLinkAlone) {
@@ -160,9 +159,13 @@ function handleRootfolder (bookmark) {
                 }
                 $('#'+bookmark.id+' ul').append(getLinkHtml(child));
             }
-        } else {
+        } else if (child.type == 'folder') {
             // it is a folder
             handleFolder(child);
+        } else if (child.type == 'separator') {
+            // ignore
+        } else {
+            logError('unknown bookmark type in root folder: ' + child.type);
         }
     });
 }
@@ -179,15 +182,20 @@ function handleFolder (bookmark) {
     $('#bookmarks').append(getFolderHtml(bookmark));
     for (var i = 0; i < bookmark.children.length; i++) {
         var child = bookmark.children[i];
-        if (child.url !== undefined) {
+        if (child.type == 'bookmark') {
             if (!ignoreLink(child.url)) {
                 // add link to list
                 $('#'+bookmark.id+' ul').append(getLinkHtml(child));
             }
-        } else {
+        } else if (child.type == 'separator') {
+            // add separator
+            $('#'+bookmark.id+' ul').append('<li><hr/></li>');
+        } else if (child.type == 'folder') {
             // add folder link
             $('#'+bookmark.id+' ul').append(getSubfolderHtml(child));
             $('#'+child.id).click(getChangeFolderFunc(bookmark.id, child.id));
+        } else {
+            logError('unknown bookmark type in folder: ' + child.type);
         }
     }
 }
@@ -219,13 +227,18 @@ function replaceFolderChildren(divId, folder, children) {
     divTitle.append(title);
     // now fill it
     children.forEach(function (child) {
-        if (child.url !== undefined) {
+        if (child.type == 'bookmark') {
             // add link to list
             divUl.append(getLinkHtml(child));
-        } else {
+        } else if (child.type == 'separator') {
+            // add separator
+            divUl.append('<li><hr/></li>');
+        } else if (child.type == 'folder') {
             // add link to go to subfolder
             divUl.append(getSubfolderHtml(child));
             $('#'+child.id).click(getChangeFolderFunc(divId, child.id));
+        } else {
+            logError('unknown bookmark type in folder: ' + child.type);
         }
     });
     if (!(folder.id in getBookmarkFolders())) {

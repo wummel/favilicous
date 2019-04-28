@@ -1,5 +1,6 @@
-0.19 (released xx.xx.2019)
+0.19 (released 28.04.2019)
   * Log errors executing bookmark functions.
+  * Detect and render separators. This fixes "disappearing" folders.
 
 0.18 (released 21.02.2019)
   * Don't fade out, use only fade in when replacing folder contents.
