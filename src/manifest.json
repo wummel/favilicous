@@ -28,7 +28,7 @@
   "permissions": [
     "bookmarks"
   ],
-  "version": "0.19",
+  "version": "0.20",
   "web_accessible_resources": [
     "newtab.html"
   ]
