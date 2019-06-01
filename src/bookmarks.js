@@ -105,7 +105,7 @@ function handleRoot(tree) {
 
 /**
  * Fill global bookmarkFolders variable.
- * @param tree {Array<BookmarkTreeNode>} Array with root bookmark folder
+ * @param {Array<BookmarkTreeNode>} tree Array with root bookmark folder
  * @private
  */
 function fillBookmarkFolders(tree) {
@@ -129,8 +129,8 @@ function fillBookmarkFolders(tree) {
 /**
  * Check if given URL should be ignored.
  * Ignored URLs are place: and data: URLs.
- * @param url {String] the URL to check
- * @return true if URL is to be ignored, else false
+ * @param {string} url the URL to check
+ * @return {bool} true if URL is to be ignored, else false
  * @private
  */
 function ignoreLink(url) {
@@ -141,7 +141,7 @@ function ignoreLink(url) {
 
 /**
  * Display bookmarks from root folder.
- * @param  bookmark {BookmarkTreeNode} the bookmark folder node
+ * @param  {BookmarkTreeNode} bookmark the bookmark folder node
  * @private
  */
 function handleRootfolder (bookmark) {
@@ -173,34 +173,52 @@ function handleRootfolder (bookmark) {
 
 /**
  * Callback function for subfolders.
- * @param {BookmarkTreeNode} the bookmark folder node
+ * @param {BookmarkTreeNode} bookmark the bookmark folder node
  * @private
  */
 function handleFolder (bookmark) {
     if (!bookmark.children) return;
     // create new div element to store folder links
     $('#bookmarks').append(getFolderHtml(bookmark));
-    for (var i = 0; i < bookmark.children.length; i++) {
-        var child = bookmark.children[i];
-        if (child.type == 'bookmark') {
-            if (!ignoreLink(child.url)) {
-                // add link to list
-                $('#'+bookmark.id+' ul').append(getLinkHtml(child));
-            }
-        } else if (child.type == 'separator') {
-            // add separator
-            $('#'+bookmark.id+' ul').append('<li><hr/></li>');
-        } else if (child.type == 'folder') {
-            // add folder link
-            $('#'+bookmark.id+' ul').append(getSubfolderHtml(child));
-            $('#'+child.id).click(getChangeFolderFunc(bookmark.id, child.id));
-        } else {
-            logError('unknown bookmark type in folder: ' + child.type);
-        }
-    }
+    var divUl = $('#'+bookmark.id+' ul');
+    fillFolder(bookmark.children, divUl, bookmark.id);
 }
 
 
+/**
+ * Fill a div with folder children
+ * @param {Array<BookmarkTreeNode>} children the folder children
+ * @param {Element} divUl the <div><ul> element to write into
+ * @param {string} divId the <div id=""> ID
+ * @private
+ */
+function fillFolder(children, divUl, divId) {
+    children.forEach(function(child) {
+        if (child.type == 'bookmark') {
+            if (!ignoreLink(child.url)) {
+                // add link to list
+                divUl.append(getLinkHtml(child));
+            }
+        } else if (child.type == 'folder') {
+            // add folder link
+            divUl.append(getSubfolderHtml(child));
+            $('#'+child.id).click(getChangeFolderFunc(divId, child.id));
+        } else if (child.type == 'separator') {
+            // add separator
+            divUl.append('<li><hr/></li>');
+        } else {
+            logError('unknown bookmark type in folder: ' + child.type);
+        }
+    });
+}
+
+
+/**
+ * Get function for a folder to display after changing into it
+ * @param {string} divId the <div id=""> id to display folder contents in
+ * @param {string} folderId the bookmark folder id
+ * @private
+ */
 function getChangeFolderFunc(divId, folderId) {
     return function() {
         changeFolder(divId, folderId);
@@ -211,9 +229,9 @@ function getChangeFolderFunc(divId, folderId) {
 
 /**
  * Replace div contents with children of a certain folder.
- * @param {string} the id of <div> element
- * @param {BookmarkTreeNode} the folder node
- * @param {Array<BookmarkTreeNode>} list of folder children nodes
+ * @param {string} divId the id of <div> element
+ * @param {BookmarkTreeNode} folder the folder node
+ * @param {Array<BookmarkTreeNode>} children list of folder children nodes
  * @private
  */
 function replaceFolderChildren(divId, folder, children) {
@@ -226,21 +244,7 @@ function replaceFolderChildren(divId, folder, children) {
     var title = getBookmarkTitle(folder);
     divTitle.append(title);
     // now fill it
-    children.forEach(function (child) {
-        if (child.type == 'bookmark') {
-            // add link to list
-            divUl.append(getLinkHtml(child));
-        } else if (child.type == 'separator') {
-            // add separator
-            divUl.append('<li><hr/></li>');
-        } else if (child.type == 'folder') {
-            // add link to go to subfolder
-            divUl.append(getSubfolderHtml(child));
-            $('#'+child.id).click(getChangeFolderFunc(divId, child.id));
-        } else {
-            logError('unknown bookmark type in folder: ' + child.type);
-        }
-    });
+    fillFolder(children, divUl, divId)
     if (!(folder.id in getBookmarkFolders())) {
         // if it is not a direct child of a root folder add link to go back
         var html = '<li><a id="b' + folder.id +
@@ -257,8 +261,8 @@ function replaceFolderChildren(divId, folder, children) {
 
 /**
  * Replace div contents with bookmarks of given folder ID.
- * @param {string} id of <div> element
- * @param {string} id of bookmark folder node
+ * @param {string} divId id of <div> element
+ * @param {string} folderId id of bookmark folder node
  * @public
  */
 function changeFolder(divId, folderId) {
@@ -381,7 +385,7 @@ function getFaviconSrc(url) {
 
 /**
  * Quote an HTML attribute value by HTML-encoding all double quotes.
- * @param value {string} the attribute value to quote
+ * @param {string} value the attribute value to quote
  * @private
  * @return {string}
  */
@@ -393,7 +397,7 @@ function attrquote(value) {
 /**
  * Quote an HTML text by HTML-encoding ampersands and
  * tag characters.
- * @param value {string} the text to quote
+ * @param {string} value the text to quote
  * @private
  * @return {string}
  */
