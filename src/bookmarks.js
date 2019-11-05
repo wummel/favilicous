@@ -1,4 +1,4 @@
-/*global $ */
+/* global $, initI18nHtml */
 
 /**
  * The background page.
@@ -14,16 +14,6 @@ var bgPage = null;
  */
 function getBookmarkFolders() {
     return bgPage.bookmarkFolders;
-}
-
-
-/**
- * Set stored bookmark folders.
- * @param {Object<string, number>} bookmarkFolders
- * @private
- */
-function setBookmarkFolders(bookmarkFolders) {
-    bgPage.bookmarkFolders = bookmarkFolders;
 }
 
 
@@ -244,7 +234,7 @@ function replaceFolderChildren(divId, folder, children) {
     var title = getBookmarkTitle(folder);
     divTitle.append(title);
     // now fill it
-    fillFolder(children, divUl, divId)
+    fillFolder(children, divUl, divId);
     if (!(folder.id in getBookmarkFolders())) {
         // if it is not a direct child of a root folder add link to go back
         var html = '<li><a id="b' + folder.id +

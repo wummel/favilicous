@@ -4,7 +4,7 @@
  * @type {Object<string, number>}
  * @private
  */
-var bookmarkFolders = {};
+var bookmarkFolders = {}; // eslint-disable-line no-unused-vars
 
 /**
  * Store flag if bookmark menu and listeners have been initialized.
@@ -12,4 +12,4 @@ var bookmarkFolders = {};
  * @type {boolean}
  * @private
  */
-var bookmarksInitialized = false;
+var bookmarksInitialized = false; // eslint-disable-line no-unused-vars

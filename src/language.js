@@ -1,4 +1,4 @@
-/*global $ */
+/* global $ */
 
 /**
  * Map HTML ids to messages.
@@ -13,7 +13,7 @@ var HTML_MESSAGES = {
  * appropriate i18n message.
  * @public
  */
-function initI18nHtml() {
+function initI18nHtml() { // eslint-disable-line no-unused-vars
     for (var key in HTML_MESSAGES) {
         var value = HTML_MESSAGES[key];
         if (value === null) value = key;
