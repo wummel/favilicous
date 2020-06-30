@@ -353,6 +353,7 @@ function getFavicon(url) {
 function getFaviconSrc(url) {
     if (url !== undefined && url !== '') {
         var ipv4_address_regex = /^([0-9]+\.){3}[0-9]+$/;
+        var onion_address_regex = /\.onion$/;
         // use favicon url chrome://favicon/$url
         // XXX favicon cache is not supported in Firefox
         // https://bugzilla.mozilla.org/show_bug.cgi?id=1315616
@@ -361,6 +362,7 @@ function getFaviconSrc(url) {
         if (!urlObject.protocol.startsWith('http') ||
             urlObject.hostname === 'localhost' ||
             urlObject.hostname.match(ipv4_address_regex) ||
+            urlObject.hostname.match(onion_address_regex) ||
             !window.navigator.onLine) {
             // use plain bookmark icon
             return 'images/bookmark.png';
