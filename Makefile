@@ -6,8 +6,7 @@ build_dir := build
 dist_dir := dist
 # web-ext documentation
 # https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Getting_started_with_web-ext
-web_ext := $(CURDIR)/node_modules/.bin/web-ext
-eslint := $(CURDIR)/node_modules/.bin/eslint
+node_bindir := $(CURDIR)/node_modules/.bin
 
 all:
 	@echo "Available targets: ide icons favicons lint clean dist build"
@@ -51,7 +50,7 @@ bumpversion-minor:
 	@python -c "import json; d=json.load(open('src/manifest.json')); print 'New version:', d['version']"
 
 checkoutdated:
-	npm outdated
+	$(node_bindir)/ncu
 
 # use visual-studio-code
 ide:
@@ -66,17 +65,19 @@ install-npm: package-lock.json
 	npm install .
 
 run:
-	cd src && $(web_ext) run
+	cd src && $(node_bindir)/web-ext run
 
-lint:
-	cd src && $(web_ext) lint
+lint:	lint-webext lint-js lint-npm
 
-# fix security vulnerabilities in npm-installed packages
-npmlint:
-	npm audit fix
+lint-webext:
+	cd src && $(node_bindir)/web-ext lint
+
+# find security vulnerabilities in npm-installed packages
+lint-npm:
+	npm audit
 
 
-jslint:
-	$(eslint) src/background.js src/bookmarks.js src/language.js
+lint-js:
+	$(node_bindir)/eslint src/background.js src/bookmarks.js src/language.js
 
 .PHONY: all ide lint jslint npmlint clean dist build bumpversion-minor bumpversion-major release releasecheck
