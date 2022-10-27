@@ -367,8 +367,15 @@ function getFaviconSrc(url) {
             // use plain bookmark icon
             return 'images/bookmark.png';
         }
-        // use unofficial(?) favicon cache from githubusercontent
-        return 'https://favicons.githubusercontent.com/' + urlObject.host;
+        var faviconUrl = urlObject.scheme+'://'+urlObject.host+'/favicon.ico';
+        $.ajax({
+            url: faviconUrl,
+            type: 'HEAD',
+            success: function() {
+            }
+        });
+        // use unofficial(?) favicon cache from duckduckgo
+        return 'https://icons.duckduckgo.com/ip3/' + urlObject.host + '.ico';
     }
     // per default return a folder icon
     return 'images/folder.png';
