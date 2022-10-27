@@ -1,3 +1,7 @@
+0.21 (released xx.xx.xxxx)
+  * Updated jquery 3.5.1 -> 3.6.1
+  * Use working favicon api from duckduckgo
+
 0.20 (released 30.06.2020)
   * Updated jquery 3.3.1 -> 3.5.1
 
