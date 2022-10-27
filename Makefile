@@ -1,6 +1,6 @@
 # Makefile for building the favilicous extension for Mozilla Firefox
 base_name := favilicous
-version := $(shell python -c "import json;print json.load(open('src/manifest.json'))['version']")
+version := $(shell python3 -c "import json;print(json.load(open('src/manifest.json'))['version'])")
 release_name := $(base_name)-$(version)
 build_dir := build
 dist_dir := dist
@@ -27,7 +27,7 @@ dist-stamp:
 	@echo "[DIST] Result at $(build_dir)/$(dist_dir)/"
 	touch $@
 
-releasecheck:	lint npmlint
+releasecheck:	lint
 
 release: releasecheck dist
 	git tag upstream/$(version)
@@ -39,15 +39,15 @@ clean:
 
 # bump the major part of version number
 bumpversion-major:
-	@python -c "import json; d=json.load(open('src/manifest.json')); print 'Old version:', d['version']"
-	@python -c "import json; d=json.load(open('src/manifest.json')); v = d['version'].split('.'); v[0] = str(int(v[0])+1); v[1] = '0'; d['version'] = u'.'.join(v); fh = open('src/manifest.json', 'w'); json.dump(d, fh, indent=2, sort_keys=True, separators=(',', ': ')); fh.flush(); fh.close()"
-	@python -c "import json; d=json.load(open('src/manifest.json')); print 'New version:', d['version']"
+	@python3 -c "import json; d=json.load(open('src/manifest.json')); print('Old version:', d['version'])"
+	@python3 -c "import json; d=json.load(open('src/manifest.json')); v = d['version'].split('.'); v[0] = str(int(v[0])+1); v[1] = '0'; d['version'] = u'.'.join(v); fh = open('src/manifest.json', 'w'); json.dump(d, fh, indent=2, sort_keys=True, separators=(',', ': ')); fh.flush(); fh.close()"
+	@python3 -c "import json; d=json.load(open('src/manifest.json')); print('New version:', d['version'])"
 
 # bump the minor part of version number
 bumpversion-minor:
-	@python -c "import json; d=json.load(open('src/manifest.json')); print 'Old version:', d['version']"
-	@python -c "import json; d=json.load(open('src/manifest.json')); v = d['version'].split('.'); v[1] = str(int(v[1])+1); d['version'] = u'.'.join(v); fh = open('src/manifest.json', 'w'); json.dump(d, fh, indent=2, sort_keys=True, separators=(',', ': ')); fh.flush(); fh.close()"
-	@python -c "import json; d=json.load(open('src/manifest.json')); print 'New version:', d['version']"
+	@python3 -c "import json; d=json.load(open('src/manifest.json')); print('Old version:', d['version'])"
+	@python3 -c "import json; d=json.load(open('src/manifest.json')); v = d['version'].split('.'); v[1] = str(int(v[1])+1); d['version'] = u'.'.join(v); fh = open('src/manifest.json', 'w'); json.dump(d, fh, indent=2, sort_keys=True, separators=(',', ': ')); fh.flush(); fh.close()"
+	@python3 -c "import json; d=json.load(open('src/manifest.json')); print('New version:', d['version'])"
 
 checkoutdated:
 	$(node_bindir)/ncu
@@ -67,7 +67,7 @@ install-npm: package-lock.json
 run:
 	cd src && $(node_bindir)/web-ext run
 
-lint:	lint-webext lint-js lint-npm
+lint:	lint-js lint-npm lint-webext
 
 lint-webext:
 	cd src && $(node_bindir)/web-ext lint
@@ -80,4 +80,4 @@ lint-npm:
 lint-js:
 	$(node_bindir)/eslint src/background.js src/bookmarks.js src/language.js
 
-.PHONY: all ide lint jslint npmlint clean dist build bumpversion-minor bumpversion-major release releasecheck
+.PHONY: all ide lint lint-js lint-npm clean dist build bumpversion-minor bumpversion-major release releasecheck
