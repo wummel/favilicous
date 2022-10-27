@@ -5,7 +5,7 @@ release_name := $(base_name)-$(version)
 build_dir := build
 dist_dir := dist
 # web-ext documentation
-# https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Getting_started_with_web-ext
+# https://extensionworkshop.com/documentation/develop/getting-started-with-web-ext/
 node_bindir := $(CURDIR)/node_modules/.bin
 
 all:
@@ -54,7 +54,7 @@ checkoutdated:
 
 # use visual-studio-code
 ide:
-	code .
+	codium .
 
 # regenerate package-lock.json
 package-lock.json: package.json
