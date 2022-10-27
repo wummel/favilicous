@@ -13,7 +13,7 @@
   "chrome_url_overrides": {
     "newtab": "newtab.html"
   },
-  "content_security_policy": "object-src 'none'; script-src 'self'; img-src 'self' https://favicons.githubusercontent.com",
+  "content_security_policy": "object-src 'none'; script-src 'self'; img-src 'self' https://icons.duckduckgo.com",
   "default_locale": "en",
   "description": "Displays bookmarks in the new-tab page.",
   "homepage_url": "https://github.com/wummel/favilicous/",
