@@ -22,8 +22,8 @@ build-stamp:
 dist:	clean build-stamp dist-stamp
 dist-stamp:
 	@echo "[DIST] creating ZIP package..."
-#	cd $(build_dir) && $(web_ext) sign --api-key=$(AMO_JWT_ISSUER) --api-secret=$(AMO_JWT_SECRET)
-	cd $(build_dir) && $(web_ext) --artifacts-dir $(dist_dir) build
+#	cd $(build_dir) && $(node_bindir)/web-ext sign --api-key=$(AMO_JWT_ISSUER) --api-secret=$(AMO_JWT_SECRET)
+	cd $(build_dir) && $(node_bindir)/web-ext --artifacts-dir $(dist_dir) build
 	@echo "[DIST] Result at $(build_dir)/$(dist_dir)/"
 	touch $@
 
