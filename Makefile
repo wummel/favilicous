@@ -63,19 +63,15 @@ package-lock.json: package.json
 # install dependencies locally into ./node-modules
 install-npm: package-lock.json
 	npm install .
+	npm audit fix
 
 run:
 	cd src && $(node_bindir)/web-ext run
 
-lint:	lint-js lint-npm lint-webext
+lint:	lint-js lint-webext
 
 lint-webext:
 	cd src && $(node_bindir)/web-ext lint
-
-# find security vulnerabilities in npm-installed packages
-lint-npm:
-	npm audit
-
 
 lint-js:
 	$(node_bindir)/eslint src/background.js src/bookmarks.js src/language.js
