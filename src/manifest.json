@@ -24,7 +24,7 @@
   },
   "manifest_version": 2,
   "minimum_chrome_version": "18",
-  "name": "Favilicous",
+  "name": "Favilicous2",
   "permissions": [
     "bookmarks"
   ],
