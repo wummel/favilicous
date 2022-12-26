@@ -5,8 +5,8 @@
     "license": "all rights reserved",
     "private": true,
     "devDependencies": {
-        "eslint": "8.26.0",
-        "web-ext": "7.3.1",
-        "npm-check-updates": "16.3.15"
+        "eslint": "8.30.0",
+        "web-ext": "7.4.0",
+        "npm-check-updates": "16.6.2"
     }
 }
